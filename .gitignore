@@ -1,0 +1,15 @@
+# Project exclude paths
+/env/
+.env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+media/
+*.log
+*.tmp
+staticfiles/
+.vscode/
+.idea/
+docker-compose.override.yml
