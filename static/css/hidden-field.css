@@ -1,0 +1,9 @@
+
+        /* */
+        .hidden-field {
+          display: none;
+        }
+
+        .form-group {
+          margin-bottom: 15px; /* Регулируйте отступ между полями */
+        }

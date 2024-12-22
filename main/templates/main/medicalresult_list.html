@@ -1,0 +1,85 @@
+{% extends 'main/base.html' %}
+{% load users_tags %}
+{% block content %}
+
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3>Результаты анализов и назначения</h3>
+                {% if request.user|has_group:"doctors" %}
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a type="button" class="btn btn-sm btn-secondary"
+                       href="{% url 'main:result_create' %}">Добавить</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="table-responsive small">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Дата рождения</th>
+                        <th>Описание</th>
+                        <th>Вложение</th>
+                        <th>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    {% for object in object_list %}
+                    <!--        Здесь написано, как сделать строку таблицы ссылкой (надо еще добавить стиль tr.link)-->
+                    <tr class="link" onclick="window.location.href='{% url 'main:result_view' object.pk %}';">
+
+                        <td>{{ object.created_date|date:"d M Y" }}</td>
+                        <td>{{ object.user.first_name }}</td>
+                        <td>{{ object.user.last_name }}</td>
+                        <td>
+                            {% if object.user.birthday %}
+                            {{ object.user.birthday }}
+                            {% else %}
+                            <p>—</p>
+                            {% endif %}
+                        </td>
+                        <td>{{ object.description }}</td>
+                        <td>
+                            {% if object.medicalresultfile %}
+                            <p>✔︎</p>
+                            {% else %}
+                            <p>—</p>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a type="button" class="btn" href="{% url 'main:result_view' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    View
+                                </a>
+                                <a type="button" class="btn" href="{% url 'main:result_update' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    Edit
+                                </a>
+                                <a type="button" class="btn" href="{% url 'main:result_delete' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

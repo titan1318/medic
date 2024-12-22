@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="row mt-3">
+
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-header p-6 pb-md-4 mx-auto text-center">Наши контакты</h3>
+                            <div class="row mt-3">
+                                <div class="col-3">Адрес</div>
+                                <div class="col-9">665700, город Братск, УЛИЦА<br>Обручева, дом 13</div>
+                                <div class="col-3">Телефоны</div>
+                                <div class="col-9">+7 (800) 600-80-82 (звонок бесплатный)</div>
+                                <div class="col-3"></div>
+                                <div class="col-9">+7 (495) 600-80-82</div>
+                                <div class="col-3">E-mail</div>
+                                <div class="col-9">info@medcenter.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-header p-6 pb-md-4 mx-auto text-center">Напишите нам</h3>
+                            <div class="row mt-3">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <input name="name" type="text" class="form-control"
+                                               id="exampleInputName" value="{{ name }}"
+                                               aria-describedby="nameHelp" placeholder="Имя">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input name="email" type="email" class="form-control"
+                                               id="exampleInputEmail" value="{{ from }}"
+                                               aria-describedby="emailHelp" placeholder="Email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input name="phone" type="phone" class="form-control"
+                                               id="exampleInputPhone" value="{{ phone }}"
+                                               aria-describedby="phoneHelp" placeholder="Телефон">
+                                    </div>
+                                    <div class="mb-3">
+                                    <textarea name="message" class="form-control" id="exampleFormControlTextarea1"
+                                              placeholder="Сообщение" rows="3"></textarea>
+                                    </div>
+
+                                    <div class="btn-group btn-group-sm form-control">
+                                        <button type="submit" class="btn btn-secondary">Отправить</button>
+                                        <a class="btn btn-outline-secondary" onclick="history.back();">Отмена</a>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock %}

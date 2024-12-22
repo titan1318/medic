@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+{% load my_tags %}
+{% load users_tags %}
+{% block content %}
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3>Доктора</h3>
+
+                {% if request.user|has_group:"managers" %}
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <a type="button" class="btn btn-sm btn-secondary"
+                               href="{% url 'doctors:doctor_create' %}">Добавить</a>
+                        </div>
+                {% endif %}
+
+            </div>
+
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <div class="container px-4 py-0">
+
+                    {% for object in object_list %}
+                        <div class="card h-100 mb-3">
+                            <div class="row g-0">
+
+                                <div class="card-header">
+                                    <div class="card-title"><strong><p><h4>{{ object.user.first_name }} {{ object.user.last_name }}</p></h4></strong></div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <img src="{{ object.user.photo|mediapath }}" class="img-fluid rounded-start"
+                                         alt="Doctor image">
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                            <dl class="row">
+
+                                                <dt class="col-sm-4">Email</dt>
+                                                <dd class="col-sm-8">{{ object.user.email }}</dd>
+                                                {% if object.user.birthday %}
+                                                    <dt class="col-sm-4">Дата рождения</dt>
+                                                    <dd class="col-sm-8">{{ object.user.birthday }}</dd>
+                                                {% endif %}
+                                                {% if object.user.phone %}
+                                                    <dt class="col-sm-4">Телефон</dt>
+                                                    <dd class="col-sm-8">{{ object.user.phone }}</dd>
+                                                {% endif %}
+                                                {% if object.user.address %}
+                                                    <dt class="col-sm-4">Адрес</dt>
+                                                    <dd class="col-sm-8">{{ object.user.address }}</dd>
+                                                {% endif %}
+                                                {% for speciality in object.specialities.all %}
+                                                    {% if forloop.first %}
+                                                        <dt class="col-sm-4">Специализация</dt>
+                                                    {% else %}
+                                                        <dt class="col-sm-4"></dt>
+                                                    {% endif %}
+                                                    <dd class="col-sm-8"> {{ speciality.name }}</dd>
+                                                {% endfor %}
+                                                {% if object.user.comment %}
+                                                    <dt class="col-sm-4">Комментарий</dt>
+                                                    <dd class="col-sm-8">{{ object.user.comment }}</dd>
+                                                {% endif %}
+                                            </dl>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+
+                                            {% if request.user|has_group:"managers" %}
+                                            <a class="btn btn-outline-danger btn-sm"
+                                               href="{% url 'doctors:doctor_delete' object.pk %} ">Удалить</a>
+                                            {% elif request.user|has_group:"doctors" %}
+    <!--                                        Если пользователь в группе doctors, то кнопки не отображаем-->
+    <!--                                        Свой профиль он редактирует после нажатия кнопки с email в строке меню -->
+                                            {% else %}
+    <!--                                        Для простых пользователей - отображаем-->
+                                            <a class="btn btn-secondary btn-sm"
+                                               href="{% url 'main:make_appointment' %}">Записаться на прием</a>
+                                            {% endif %}
+
+                                        </div>
+                                        {% if request.user|has_group:"managers" %}
+                                        <small>Создан: <strong>{{ object.user.created_date|date:"d M Y" }}</strong>,
+                                            Последний вход:
+                                            {% if object.user.last_login %}
+                                            <strong>{{ object.user.last_login|date:"d M Y H:i" }}</strong></small>
+                                            {% else %}
+                                            <strong>−</strong></small>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

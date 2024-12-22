@@ -1,0 +1,111 @@
+{% extends 'main/base.html' %}
+{% load my_tags %}
+{% load users_tags %}
+{% block content %}
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+
+        <div class="card h-100 mb-3">
+            <div class="row g-0">
+
+                <div class="card-header">
+                    <div class="card-title"><strong><p><h4>Личный кабинет - {{ object.user.email }}</p></h4>
+                    </strong></div>
+                </div>
+
+                <div class="col-md-2">
+                    <img src="{{ object.user.photo|mediapath }}" class="img-fluid rounded-start"
+                         alt="Image">
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <dl class="row">
+
+                            <dt class="col-sm-4">Имя</dt>
+                            {% if object.user.first_name %}
+                            <dd class="col-sm-8">{{ object.user.first_name }}</dd>
+                            {% else %}
+                            <dd class="col-sm-8">-</dd>
+                            {% endif %}
+
+                            <dt class="col-sm-4">Фамилия</dt>
+                            {% if object.user.last_name %}
+                            <dd class="col-sm-8">{{ object.user.last_name }}</dd>
+                            {% else %}
+                            <dd class="col-sm-8">-</dd>
+                            {% endif %}
+
+                            <dt class="col-sm-4">Дата рождения</dt>
+                            {% if object.user.birthday %}
+                            <dd class="col-sm-8">{{ object.user.birthday }}</dd>
+                            {% else %}
+                            <dd class="col-sm-8">-</dd>
+                            {% endif %}
+
+                            <dt class="col-sm-4">Телефон</dt>
+                            {% if object.user.phone %}
+                            <dd class="col-sm-8">{{ object.user.phone }}</dd>
+                            {% else %}
+                            <dd class="col-sm-8">-</dd>
+                            {% endif %}
+
+                            <dt class="col-sm-4">Адрес</dt>
+                            {% if object.user.address %}
+                            <dd class="col-sm-8">{{ object.user.address }}</dd>
+                            {% else %}
+                            <dd class="col-sm-8">-</dd>
+                            {% endif %}
+
+
+                            {% for speciality in object.specialities.all %}
+                                {% if forloop.first %}
+                                    <dt class="col-sm-4">Специализация</dt>
+                                {% else %}
+                                    <dt class="col-sm-4"></dt>
+                                {% endif %}
+                                <dd class="col-sm-8"> {{ speciality.name }}</dd>
+                            {% endfor %}
+
+                            <dt class="col-sm-4">Комментарий</dt>
+                            {% if object.user.comment %}
+                                <dd class="col-sm-8">{{ object.user.comment }}</dd>
+                            {% else %}
+                                <dd class="col-sm-8">-</dd>
+                            {% endif %}
+                        </dl>
+
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+
+                            {% if request.user == object.user %}
+                            <a class="btn btn-outline-secondary btn-sm"
+                               href="{% url 'doctors:doctor_update' object.pk %}">Редактировать</a>
+                            {% elif not request.user|has_group:"doctors" %}
+                            <a class="btn btn-secondary btn-sm"
+                               href="{% url 'main:make_appointment' %}">Записаться на прием</a>
+                            {% endif %}
+
+                        </div>
+                        {% if request.user == object %}
+                            <small>Создан: <strong>{{ object.user.created_date|date:"d M Y" }}</strong>,
+                            Последний вход:
+                            {% if object.user.last_login %}
+                                <strong>{{ object.user.last_login|date:"d M Y H:i" }}</strong></small>
+                            {% else %}
+                                <strong>−</strong></small>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

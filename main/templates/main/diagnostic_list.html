@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3>Диагностика</h3>
+
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a type="button" class="btn btn-sm btn-secondary" href="{% url 'main:diagnostic_create' %}">Добавить</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

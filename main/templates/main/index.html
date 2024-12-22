@@ -1,0 +1,127 @@
+
+{% extends 'main/base.html' %}
+{% load my_tags %}
+{% block content %}
+<main>
+
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+
+            {% for object in object_list %}
+            {% if forloop.first %}
+            <div class="carousel-item active">
+                {% else %}
+                <div class="carousel-item">
+                    {% endif %}
+
+                    <img src="{{ object.image|mediapath }}" class="img-fluid rounded-start" alt="Promo image">
+
+                    <div class="container">
+                        <div class="carousel-caption text-end">
+                            <h1>{{ object.title }}</h1>
+                            <p>{{ object.sub_title }}</p>
+                            <p><a class="btn btn-lg btn-info" href="{% url 'promo:promos' %}">Подробнее</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+        </div>
+
+
+        <div class="container marketing">
+            <p><h1 class="fw-normal text-center text-secondary"><strong>Медицинский диагностический центр</strong></h1></p>
+            <p><h1 class="fw-normal text-center text-secondary"><strong>"Будьте здоровы!"</strong></h1></p>
+
+            <div class="row mt-5">
+                <div class="col-lg-4">
+                    <img src="/static/images/tests.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>сделано анализов</p>
+
+                    <h1 class="fw-normal text-info"><strong>{{ count_tests }}</strong></h1>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img src="/static/images/doctors.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>работают врачей</p>
+                    <h1 class="fw-normal text-info"><strong>{{ count_doctors }}</strong></h1>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img src="/static/images/patient.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>пациентов</p>
+                    <h1 class="fw-normal text-info"><strong>{{ count_users }}</strong></h1>
+                </div><!-- /.col-lg-4 -->
+            </div>
+
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Врачи и медицинский персонал</h2>
+                    <p class="lead">Наша команда включает квалифицированных специалистов, прошедших
+                        специальную подготовку и обладающих опытом работы с современным оборудованием</p>
+                </div>
+                <div class="col-md-5">
+                    <img src="/static/images/doctors.jpeg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading fw-normal lh-1">Оборудование и препараты</h2>
+                    <p class="lead">Мы используем современное диагностическое оборудование, позволяющее врачам
+                        получить полную информацию для правильного диагноза и эффективного лечения</p>
+
+
+
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <img src="/static/images/kt_device.jpeg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Служба выезда на дом</h2>
+                    <p class="lead">Если у вас нет времени на посещение нашего медицинского центра, вы можете следить за
+                        состоянием своего здоровья и сдавать анализы, не выходя из дома! Оставьте заявку, и специалисты
+                        выездной медицинской службы приедут в удобное для вас время для взятия биоматериала. Результаты
+                        анализов вы получите по электронной почте или через мессенджер WhatsApp</p>
+                    <p><strong>Выезд на дом +7 (111) 111-11-11</strong></p>
+                </div>
+                <div class="col-md-5">
+                    <img src="/static/images/tests_at_home.jpg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+        </div>
+</main>
+{% endblock %}

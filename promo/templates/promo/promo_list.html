@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %}
+{% load my_tags %}
+{% load users_tags %}
+{% block content %}
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3>Акции</h3>
+                {% if request.user|has_group:"managers" %}
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a type="button" class="btn btn-sm btn-secondary" href="{% url 'promo:promo_create' %}">Добавить</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <div class="container px-4 py-0">
+
+                    {% for object in object_list %}
+                    <div class="card h-100 mb-3">
+                        <div class="row g-0">
+
+                            <div class="card-header">
+                                <p><h4 class="card-title">{{ object.title }}</h4></p>
+                            </div>
+
+                            {% if object.image %}
+                            <div class="col-md-4">
+                                <img src="{{ object.image|mediapath }}" class="img-fluid rounded-start"
+                                     alt="Promo image">
+                            </div>
+                            {% endif %}
+
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <p class="card-text">{{ object.description }}</p>
+                                    <strong class="text-danger">{{ object.sub_title }}</strong>
+                                </div>
+                            </div>
+
+                            {% if request.user|has_group:"managers" %}
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div class="btn-group btn-group-sm">
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url 'promo:promo_update' object.pk %}">Редактировать</a>
+                                        <a class="btn btn-outline-danger"
+                                           href="{% url 'promo:promo_delete' object.pk %}">Удалить</a>
+                                    </div>
+
+                                    <a class="btn btn-sm btn-outline-secondary"
+                                       href="{% url 'promo:toggle_active' object.pk %}">
+                                        {% if object.is_active %}
+                                        Деактивировать
+                                        {% else %}
+                                        Активировать
+                                        {% endif %}
+                                    </a>
+
+                                </div>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

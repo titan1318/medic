@@ -1,0 +1,89 @@
+{% extends 'main/base.html' %}
+{% load users_tags %}
+{% block content %}
+
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3>Пациенты</h3>
+            </div>
+
+            <div class="table-responsive small">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Email</th>
+                        <th>Дата рождения</th>
+                        <th>Телефон</th>
+                        <th>Комментарий</th>
+                        <th>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    {% for object in object_list %}
+                    <!--        Здесь написано, как сделать строку таблицы ссылкой (надо еще добавить стиль tr.link)-->
+                    <tr class="link" onclick="window.location.href='{% url 'users:user_view' object.pk %}';">
+
+                        <td>{{ object.first_name }}</td>
+                        <td>{{ object.last_name }}</td>
+                        <td>{{ object.email }}</td>
+                        <td>
+                            {% if object.birthday %}
+                            {{ object.birthday|date:"d M Y" }}
+                            {% else %}
+                            <p>—</p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if object.phone %}
+                            {{ object.phone }}
+                            {% else %}
+                            <p>—</p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if object.comment %}
+                            {{ object.comment|truncatechars:40 }}
+                            {% else %}
+                            <p>—</p>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a type="button" class="btn" href="{% url 'users:user_view' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    Просмотр
+                                </a>
+                                <a type="button" class="btn" href="{% url 'users:toggle_active' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    {% if object.is_active %}
+                                    Дактивировать
+                                    {% else %}
+                                    Активировать
+                                    {% endif %}
+                                </a>
+                                <a type="button" class="btn" href="{% url 'users:user_delete' object.pk %}"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    Удалить
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

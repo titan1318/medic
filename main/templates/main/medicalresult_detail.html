@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %}
+{% load users_tags %}
+{% block content %}
+
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="container px-4 py-0">
+
+            <div class="card">
+                <div class="row g-0">
+                    <div class="card-header">
+                        <p><h4 class="card-title"><strong>{{ object.user.first_name }} {{ object.user.last_name }}</strong></h4></p>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Дата</dt>
+                                    <dd class="col-sm-9">{{ object.created_date|date:"d M Y" }}</dd>
+                                    <dt class="col-sm-3">Описание</dt>
+                                    <dd class="col-sm-9">{{ object.description }}</dd>
+                                    <dt class="col-sm-3">Назначение</dt>
+                                    {% if object.prescription %}
+                                    <dd class="col-sm-9">{{ object.prescription|linebreaksbr }}</dd>
+                                    {% else %}
+                                    <dd class="col-sm-9">—</dd>
+                                    {% endif %}
+                                    <dt class="col-sm-3">Комментарий</dt>
+                                    {% if object.comments %}
+                                    <dd class="col-sm-9">{{ object.comments|linebreaksbr }}</dd>
+                                    {% else %}
+                                    <dd class="col-sm-9">—</dd>
+                                    {% endif %}
+                                    <dt class="col-sm-3">Вложение</dt>
+                                    <dd class="col-sm-9">
+                                        {% if medical_result_file %}
+                                            {% if medical_result_file_description %}
+                                                <a href="{{ medical_result_file }}" target="_blank">{{ medical_result_file_description }}</a>
+                                            {% else %}
+                                                <a href="{{ medical_result_file }}" target="_blank">Вложенный файл</a>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>Файл не прикреплен</p>
+                                        {% endif %}
+                                    </dd>
+
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="btn-group">
+                                <a class="btn btn-outline-secondary btn-sm" href="{% url 'main:results' %}">Все результаты</a>
+                                {% if request.user|has_group:"doctors" %}
+                                <a class="btn btn-outline-secondary btn-sm"
+                                   href="{% url 'main:result_update' object.pk %}">Редактировать</a>
+                                <a class="btn btn-outline-danger btn-sm"
+                                   href="{% url 'main:result_delete' object.pk %}">Удалить</a>
+                                {% endif %}
+
+                            </div>
+
+                            <small>Создано: <strong>{{ object.created_date|date:"d.m.Y H:i" }}</strong>, Изменено:
+                                <strong>{{ object.modified_date|date:"d.m.Y H:i" }}</strong></small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}
