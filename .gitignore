@@ -1,15 +1,29 @@
-# Project exclude paths
+# Исключить файлы окружения
 /env/
 .env
 .venv/
+
+# Python файлы
 __pycache__/
 *.pyc
 *.pyo
+
+# SQLite база данных
 db.sqlite3
+
+# Загружаемые файлы
 media/
+
+# Лог-файлы и временные файлы
 *.log
 *.tmp
+
+# Django статические файлы
 staticfiles/
+
+# Конфигурации IDE
 .vscode/
 .idea/
+
+# Локальная конфигурация Docker
 docker-compose.override.yml
